@@ -26,7 +26,9 @@ import java.io.UnsupportedEncodingException;
 import java.lang.invoke.MethodHandles;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Future;
 
@@ -51,17 +53,25 @@ import org.slf4j.LoggerFactory;
 public class MaxClient implements Closeable {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     static final String ENDPOINT_ENV_VAR_NAME = "MAX_BOTAPI_ENDPOINT";
-    private static final String ENDPOINT = "https://botapi.max.ru";
+    private static final String ENDPOINT = "https://platform-api.max.ru";
     private final String accessToken;
     private final MaxTransportClient transport;
     private final MaxSerializer serializer;
     private final String endpoint;
+    private final String version;
+    private final Map<String, String> headers;
 
-    public MaxClient(String accessToken, MaxTransportClient transport, MaxSerializer serializer) {
-        this.endpoint = createEndpoint();
+    public MaxClient(String accessToken,  String endpoint, String version, MaxTransportClient transport, MaxSerializer serializer) {
         this.accessToken = Objects.requireNonNull(accessToken, "accessToken");
+        this.endpoint = (endpoint != null) ? endpoint : createEndpoint();
+        this.version = (version != null) ? version : Version.get();
         this.transport = Objects.requireNonNull(transport, "transport");
         this.serializer = Objects.requireNonNull(serializer, "serializer");
+        this.headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
+    }
+
+    public MaxClient(String accessToken, MaxTransportClient transport, MaxSerializer serializer) {
+        this(accessToken, null, null, transport, serializer);
     }
 
     public static MaxClient create(String accessToken) {
@@ -106,19 +116,19 @@ public class MaxClient implements Closeable {
         try {
             switch (method) {
                 case GET:
-                    call = getTransport().get(url);
+                    call = getTransport().get(url, headers);
                     break;
                 case POST:
-                    call = getTransport().post(url, requestBody);
+                    call = getTransport().post(url, requestBody, headers);
                     break;
                 case PUT:
-                    call = getTransport().put(url, requestBody);
+                    call = getTransport().put(url, requestBody, headers);
                     break;
                 case DELETE:
-                    call = getTransport().delete(url);
+                    call = getTransport().delete(url, headers);
                     break;
                 case PATCH:
-                    call = getTransport().patch(url, requestBody);
+                    call = getTransport().patch(url, requestBody, headers);
                     break;
                 default:
                     throw new ClientException(400, "Method " + method.name() + " is not supported.");
@@ -148,9 +158,7 @@ public class MaxClient implements Closeable {
             sb.append('&');
         }
 
-        sb.append("access_token=").append(getAccessToken());
-        sb.append('&');
-        sb.append("v=").append(Version.get());
+        sb.append("v=").append(version);
 
         List<QueryParam<?>> params = query.getParams();
         if (params == null) {

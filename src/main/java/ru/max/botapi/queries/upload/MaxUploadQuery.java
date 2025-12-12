@@ -37,7 +37,7 @@ public abstract class MaxUploadQuery<T> extends MaxQuery<T> {
     public MaxUploadQuery(MaxClient maxClient, Class<T> responseType, String url, File file) {
         super(maxClient, url, responseType);
         this.maxClient = maxClient;
-        this.uploadExec = new FileUploadExec(url, file);
+        this.uploadExec = new FileUploadExec(url, file, maxClient.getAccessToken());
     }
 
     public MaxUploadQuery(MaxClient maxClient, Class<T> responseType, String url, String fileName,

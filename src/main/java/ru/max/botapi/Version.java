@@ -21,9 +21,9 @@
 package ru.max.botapi;
 
 public class Version {
-    private static final int MAJOR = 0;
-    private static final int MINOR = 0;
-    private static final int BUILD = 6;
+    private static final int MAJOR = 1;
+    private static final int MINOR = 2;
+    private static final int BUILD = 5;
     private static final String VERSION = String.format("%d.%d.%d", MAJOR, MINOR, BUILD);
 
     private Version() {
