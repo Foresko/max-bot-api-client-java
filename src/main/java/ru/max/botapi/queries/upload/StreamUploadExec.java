@@ -32,7 +32,7 @@ class StreamUploadExec implements UploadExec {
             return transportClient.post(url,
                     fileName,
                     input,
-                    (accessToken != null) ? Collections.singletonMap("Authorization", "Bearer " + accessToken) : Collections.emptyMap()
+                    (accessToken != null) ? Collections.singletonMap("Authorization", accessToken) : Collections.emptyMap()
             );
         } catch (TransportClientException e) {
             throw new ClientException(e);

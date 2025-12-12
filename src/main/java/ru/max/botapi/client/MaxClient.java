@@ -67,7 +67,7 @@ public class MaxClient implements Closeable {
         this.version = (version != null) ? version : Version.get();
         this.transport = Objects.requireNonNull(transport, "transport");
         this.serializer = Objects.requireNonNull(serializer, "serializer");
-        this.headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
+        this.headers = Collections.singletonMap("Authorization", accessToken);
     }
 
     public MaxClient(String accessToken, MaxTransportClient transport, MaxSerializer serializer) {

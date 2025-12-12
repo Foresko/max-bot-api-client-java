@@ -49,7 +49,7 @@ public class OkHttpTransportClientTest {
         });
 
         OkHttpTransportClient client = new OkHttpTransportClient();
-        Future<ClientResponse> futureResponse = client.get(MaxServer.ENDPOINT + path, Collections.singletonMap("Authorization", "Bearer " + MaxService.ACCESS_TOKEN));
+        Future<ClientResponse> futureResponse = client.get(MaxServer.ENDPOINT + path, Collections.singletonMap("Authorization", MaxService.ACCESS_TOKEN));
         org.apache.log4j.Logger logger4j = org.apache.log4j.Logger.getRootLogger();
         Level currentLevel = logger4j.getLevel();
         logger4j.setLevel(Level.DEBUG);
