@@ -21,21 +21,24 @@
 package ru.max.botapi.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-
-
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Chat admin permissions
  */
 public enum ChatAdminPermission implements MaxEnum {
-    
-    READ_ALL_MESSAGES("read_all_messages"),
-    ADD_REMOVE_MEMBERS("add_remove_members"),
+
+    VIEW_STATS("view_stats"),
+    CAN_CALL("can_call"),
+    DELETE("delete"),
+    WRITE("write"),
     ADD_ADMINS("add_admins"),
-    CHANGE_CHAT_INFO("change_chat_info"),
+    ADD_REMOVE_MEMBERS("add_remove_members"),
     PIN_MESSAGE("pin_message"),
-    WRITE("write");
+    EDIT_LINK("edit_link"),
+    CHANGE_CHAT_INFO("change_chat_info"),
+    READ_ALL_MESSAGES("read_all_messages"),
+    EDIT("edit");
 
     private String value;
 
@@ -58,4 +61,3 @@ public enum ChatAdminPermission implements MaxEnum {
         return MaxEnum.create(ChatAdminPermission.class, text);
     }
 }
-
