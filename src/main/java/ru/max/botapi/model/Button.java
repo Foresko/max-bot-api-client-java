@@ -42,6 +42,7 @@ import javax.validation.constraints.Size;
   @JsonSubTypes.Type(value = LinkButton.class, name = Button.LINK),
   @JsonSubTypes.Type(value = RequestGeoLocationButton.class, name = Button.REQUEST_GEO_LOCATION),
   @JsonSubTypes.Type(value = RequestContactButton.class, name = Button.REQUEST_CONTACT),
+  @JsonSubTypes.Type(value = OpenAppButton.class, name = Button.OPEN_APP),
   @JsonSubTypes.Type(value = ChatButton.class, name = Button.CHAT),
 })
 @KnownInstance(ofClass = Button.class, discriminator = "type")
@@ -50,12 +51,14 @@ public class Button implements MaxSerializable {
     public static final String LINK = "link";
     public static final String REQUEST_GEO_LOCATION = "request_geo_location";
     public static final String REQUEST_CONTACT = "request_contact";
+    public static final String OPEN_APP = "open_app";
     public static final String CHAT = "chat";
     public static final Set<String> TYPES = new HashSet<>(Arrays.asList(
         CALLBACK, 
         LINK, 
         REQUEST_GEO_LOCATION, 
         REQUEST_CONTACT, 
+        OPEN_APP,
         CHAT
     ));
 
